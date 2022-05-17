@@ -1,5 +1,7 @@
 package pexels_sdk_go
 
+import "context"
+
 type User struct {
 	// The id of the videographer.
 	ID uint64 `json:"id"`
@@ -59,3 +61,11 @@ type Video struct {
 	// An array of preview pictures of the video.
 	VideoPictures []VideoPicture `json:"video_pictures"`
 }
+
+type SearchVideosReq struct {
+	// The search query. Ocean, Tigers, Pears, etc.
+	Query string `url:"query" validate:"required"`
+	// Desired video orientation. The current supported orientations are: landscape, portrait or square.
+}
+
+func (c *Client) SearchVideos(ctx context.Context) {}
