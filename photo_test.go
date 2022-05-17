@@ -7,7 +7,7 @@ import (
 )
 
 func TestClient_Search(t *testing.T) {
-	pl, err := client.Search(context.Background(), &SearchReq{
+	pl, err := client.SearchPhotos(context.Background(), &SearchPhotosReq{
 		Query:       "apple",
 		Orientation: "",
 		Size:        "",
@@ -24,7 +24,7 @@ func TestClient_Search(t *testing.T) {
 }
 
 func TestClient_Curated(t *testing.T) {
-	pl, err := client.Curated(context.Background(), &CuratedReq{
+	pl, err := client.CuratedPhotos(context.Background(), &CuratedReq{
 		Pagination: Pagination{
 			Page:    0,
 			PerPage: 1,

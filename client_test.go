@@ -17,7 +17,7 @@ func TestMain(t *testing.M) {
 }
 
 func TestEncode(t *testing.T) {
-	sr := &SearchReq{
+	sr := &SearchPhotosReq{
 		Query:       "test",
 		Orientation: "",
 		Size:        "fff",

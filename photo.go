@@ -98,7 +98,7 @@ type PhotoList struct {
 	Cursor
 }
 
-type SearchReq struct {
+type SearchPhotosReq struct {
 	// The search query. Ocean, Tigers, Pears, etc.
 	Query string `url:"query" validate:"required"`
 	// Desired photo orientation. The current supported
@@ -124,7 +124,7 @@ type SearchReq struct {
 	Pagination
 }
 
-func (c *Client) Search(ctx context.Context, req *SearchReq) (*PhotoList, error) {
+func (c *Client) SearchPhotos(ctx context.Context, req *SearchPhotosReq) (*PhotoList, error) {
 	v, err := encode(req)
 	if err != nil {
 		return nil, err
@@ -147,7 +147,7 @@ type CuratedReq struct {
 	Pagination
 }
 
-func (c *Client) Curated(ctx context.Context, req *CuratedReq) (*PhotoList, error) {
+func (c *Client) CuratedPhotos(ctx context.Context, req *CuratedReq) (*PhotoList, error) {
 	v, err := encode(req)
 	if err != nil {
 		return nil, err
