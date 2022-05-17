@@ -35,3 +35,11 @@ func TestClient_Curated(t *testing.T) {
 	}
 	fmt.Printf("%+v\n", pl)
 }
+
+func TestClient_GetPhoto(t *testing.T) {
+	rsp, err := client.GetPhoto(context.Background(), &GetPhotoReq{ID: 2014422})
+	if err != nil {
+		t.Fatalf("%s\n", err)
+	}
+	fmt.Printf("%+v\n", rsp)
+}

@@ -3,6 +3,7 @@ package pexels_sdk_go
 import (
 	"context"
 	"fmt"
+	"strconv"
 )
 
 type Orientation string
@@ -39,39 +40,6 @@ const (
 	Black     Color = "black"
 	Gray      Color = "gray"
 	White     Color = "white"
-)
-
-type Locale string
-
-const (
-	EN_US Locale = "en-US"
-	PT_BR Locale = "pt-BR"
-	ES_ES Locale = "es-ES"
-	CA_ES Locale = "ca-ES"
-	DE_DE Locale = "de-DE"
-	IT_IT Locale = "it-IT"
-	FR_FR Locale = "fr-FR"
-	SV_SE Locale = "sv-SE"
-	ID_ID Locale = "id-ID"
-	PL_PL Locale = "pl-PL"
-	JA_JP Locale = "ja-JP"
-	ZH_TW Locale = "zh-TW"
-	ZH_CN Locale = "zh-CN"
-	KO_KR Locale = "ko-KR"
-	TH_TH Locale = "th-TH"
-	NL_NL Locale = "nl-NL"
-	HU_HU Locale = "hu-HU"
-	VI_VN Locale = "vi-VN"
-	CS_CZ Locale = "cs-CZ"
-	DA_DK Locale = "da-DK"
-	FI_FI Locale = "fi-FI"
-	UK_UA Locale = "uk-UA"
-	EL_GR Locale = "el-GR"
-	RO_RO Locale = "ro-RO"
-	NB_NO Locale = "nb-NO"
-	SK_SK Locale = "sk-SK"
-	TR_TR Locale = "tr-TR"
-	RU_RU Locale = "ru-RU"
 )
 
 type Src struct {
@@ -193,4 +161,24 @@ func (c *Client) Curated(ctx context.Context, req *CuratedReq) (*PhotoList, erro
 		return nil, fmt.Errorf("%s", rsp.Status())
 	}
 	return rsp.Result().(*PhotoList), nil
+}
+
+type GetPhotoReq struct {
+	ID uint64 `url:"id" validate:"required"`
+}
+
+func (c *Client) GetPhoto(ctx context.Context, req *GetPhotoReq) (*Photo, error) {
+	_, err := encode(req)
+	if err != nil {
+		return nil, err
+	}
+
+	rsp, err := c.r(ctx).
+		SetPathParam("id", strconv.FormatUint(req.ID, 10)).
+		SetResult(&Photo{}).
+		Get(baseURL + "/photos/{id}")
+	if rsp.IsError() {
+		return nil, fmt.Errorf("%s", rsp.Status())
+	}
+	return rsp.Result().(*Photo), nil
 }
