@@ -130,7 +130,7 @@ func (c *Client) SearchPhotos(ctx context.Context, req *SearchPhotosReq) (*Photo
 	rsp, err := c.r(ctx).
 		SetQueryParamsFromValues(v).
 		SetResult(&PhotoList{}).
-		Get(baseURL + "/search")
+		Get(photoBaseURL + "/search")
 	if err != nil {
 		return nil, err
 	}
@@ -153,7 +153,7 @@ func (c *Client) CuratedPhotos(ctx context.Context, req *CuratedReq) (*PhotoList
 	rsp, err := c.r(ctx).
 		SetQueryParamsFromValues(v).
 		SetResult(&PhotoList{}).
-		Get(baseURL + "/curated")
+		Get(photoBaseURL + "/curated")
 	if rsp.IsError() {
 		return nil, fmt.Errorf("%s", rsp.Status())
 	}
@@ -173,7 +173,7 @@ func (c *Client) GetPhoto(ctx context.Context, req *GetPhotoReq) (*Photo, error)
 	rsp, err := c.r(ctx).
 		SetPathParam("id", strconv.FormatUint(req.ID, 10)).
 		SetResult(&Photo{}).
-		Get(baseURL + "/photos/{id}")
+		Get(photoBaseURL + "/photos/{id}")
 	if rsp.IsError() {
 		return nil, fmt.Errorf("%s", rsp.Status())
 	}

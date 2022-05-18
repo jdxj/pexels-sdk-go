@@ -11,8 +11,9 @@ import (
 )
 
 const (
-	baseURL      = "https://api.pexels.com/v1"
-	videoBaseURL = "https://api.pexels.com/videos"
+	photoBaseURL      = "https://api.pexels.com/v1"
+	videoBaseURL      = "https://api.pexels.com/videos"
+	collectionBaseURL = "https://api.pexels.com/v1/collections"
 )
 
 var (
