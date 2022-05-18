@@ -17,12 +17,9 @@ const (
 type Size string
 
 const (
-	// Large 24MP
-	Large Size = "large"
-	// Medium 12MP
+	Large  Size = "large"
 	Medium Size = "medium"
-	// Small 4MP
-	Small Size = "small"
+	Small  Size = "small"
 )
 
 type Color = string
