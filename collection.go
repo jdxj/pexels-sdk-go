@@ -36,7 +36,8 @@ type CollectionList struct {
 	Cursor
 }
 
-// FeaturedCollections This endpoint returns all featured collections on Pexels.
+// FeaturedCollections This endpoint returns all featured
+// collections on Pexels.
 func (c *Client) FeaturedCollections(ctx context.Context, req *FeaturedCollectionsReq) (*CollectionList, error) {
 	v, err := encode(req)
 	if err != nil {
@@ -47,6 +48,9 @@ func (c *Client) FeaturedCollections(ctx context.Context, req *FeaturedCollectio
 		SetQueryParamsFromValues(v).
 		SetResult(&CollectionList{}).
 		Get(collectionBaseURL + "/featured")
+	if err != nil {
+		return nil, err
+	}
 	if rsp.IsError() {
 		return nil, fmt.Errorf("%s", rsp.Status())
 	}
@@ -57,6 +61,7 @@ type MyCollectionsReq struct {
 	Pagination
 }
 
+// MyCollections This endpoint returns all of your collections.
 func (c *Client) MyCollections(ctx context.Context, req *MyCollectionsReq) (*CollectionList, error) {
 	v, err := encode(req)
 	if err != nil {
@@ -67,6 +72,9 @@ func (c *Client) MyCollections(ctx context.Context, req *MyCollectionsReq) (*Col
 		SetQueryParamsFromValues(v).
 		SetResult(&CollectionList{}).
 		Get(collectionBaseURL)
+	if err != nil {
+		return nil, err
+	}
 	if rsp.IsError() {
 		return nil, fmt.Errorf("%s", rsp.Status())
 	}
@@ -121,6 +129,10 @@ type MediaList struct {
 	Cursor
 }
 
+// CollectionMedia This endpoint returns all the
+// media (photos and videos) within a single collection.
+// You can filter to only receive photos or videos using
+// the type parameter.
 func (c *Client) CollectionMedia(ctx context.Context, req *CollectionMediaReq) (*MediaList, error) {
 	v, err := encode(req)
 	if err != nil {

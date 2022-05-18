@@ -99,6 +99,11 @@ type VideoList struct {
 	Cursor
 }
 
+// SearchVideos This endpoint enables you to search
+// Pexels for any topic that you would like. For example
+// your query could be something broad like Nature,
+// Tigers, People. Or it could be something specific
+// like Group of people working.
 func (c *Client) SearchVideos(ctx context.Context, req *SearchVideosReq) (*VideoList, error) {
 	v, err := encode(req)
 	if err != nil {
@@ -131,6 +136,8 @@ type PopularVideosReq struct {
 	Pagination
 }
 
+// PopularVideos This endpoint enables you to receive the
+// current popular Pexels videos.
 func (c *Client) PopularVideos(ctx context.Context, req *PopularVideosReq) (*VideoList, error) {
 	v, err := encode(req)
 	if err != nil {
@@ -141,6 +148,9 @@ func (c *Client) PopularVideos(ctx context.Context, req *PopularVideosReq) (*Vid
 		SetQueryParamsFromValues(v).
 		SetResult(&VideoList{}).
 		Get(videoBaseURL + "/popular")
+	if err != nil {
+		return nil, err
+	}
 	if rsp.IsError() {
 		return nil, fmt.Errorf("%s", rsp.Status())
 	}
@@ -151,6 +161,7 @@ type GetVideoReq struct {
 	ID uint64 `url:"id" validate:"required"`
 }
 
+// GetVideo Retrieve a specific Video from its id.
 func (c *Client) GetVideo(ctx context.Context, req *GetVideoReq) (*Video, error) {
 	_, err := encode(req)
 	if err != nil {
@@ -161,6 +172,9 @@ func (c *Client) GetVideo(ctx context.Context, req *GetVideoReq) (*Video, error)
 		SetPathParam("id", strconv.FormatUint(req.ID, 10)).
 		SetResult(&Video{}).
 		Get(videoBaseURL + "/videos/{id}")
+	if err != nil {
+		return nil, err
+	}
 	if rsp.IsError() {
 		return nil, fmt.Errorf("%s", rsp.Status())
 	}

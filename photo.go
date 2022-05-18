@@ -121,6 +121,10 @@ type SearchPhotosReq struct {
 	Pagination
 }
 
+// SearchPhotos This endpoint enables you to search Pexels
+// for any topic that you would like. For example your query
+// could be something broad like Nature, Tigers, People. Or
+// it could be something specific like Group of people working.
 func (c *Client) SearchPhotos(ctx context.Context, req *SearchPhotosReq) (*PhotoList, error) {
 	v, err := encode(req)
 	if err != nil {
@@ -144,6 +148,10 @@ type CuratedReq struct {
 	Pagination
 }
 
+// CuratedPhotos This endpoint enables you to receive real-time
+// photos curated by the Pexels team.
+// We add at least one new photo per hour to our curated list so
+// that you always get a changing selection of trending photos.
 func (c *Client) CuratedPhotos(ctx context.Context, req *CuratedReq) (*PhotoList, error) {
 	v, err := encode(req)
 	if err != nil {
@@ -154,6 +162,9 @@ func (c *Client) CuratedPhotos(ctx context.Context, req *CuratedReq) (*PhotoList
 		SetQueryParamsFromValues(v).
 		SetResult(&PhotoList{}).
 		Get(photoBaseURL + "/curated")
+	if err != nil {
+		return nil, err
+	}
 	if rsp.IsError() {
 		return nil, fmt.Errorf("%s", rsp.Status())
 	}
@@ -164,6 +175,7 @@ type GetPhotoReq struct {
 	ID uint64 `url:"id" validate:"required"`
 }
 
+// GetPhoto Retrieve a specific Photo from its id.
 func (c *Client) GetPhoto(ctx context.Context, req *GetPhotoReq) (*Photo, error) {
 	_, err := encode(req)
 	if err != nil {
@@ -174,6 +186,9 @@ func (c *Client) GetPhoto(ctx context.Context, req *GetPhotoReq) (*Photo, error)
 		SetPathParam("id", strconv.FormatUint(req.ID, 10)).
 		SetResult(&Photo{}).
 		Get(photoBaseURL + "/photos/{id}")
+	if err != nil {
+		return nil, err
+	}
 	if rsp.IsError() {
 		return nil, fmt.Errorf("%s", rsp.Status())
 	}
