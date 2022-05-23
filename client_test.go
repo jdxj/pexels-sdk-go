@@ -11,8 +11,7 @@ var (
 )
 
 func TestMain(t *testing.M) {
-	debug = true
-	client = NewClient(apiKey)
+	client = NewClient(apiKey, WithDebug(true))
 	os.Exit(t.Run())
 }
 

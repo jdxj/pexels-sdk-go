@@ -17,20 +17,34 @@ const (
 )
 
 var (
-	debug bool
-)
-
-var (
 	validate = validator.New()
 )
 
-func NewClient(apiKey string) *Client {
+type option struct {
+	debug bool
+}
+
+type OptFunc func(*option)
+
+func WithDebug(debug bool) OptFunc {
+	return func(o *option) {
+		o.debug = debug
+	}
+}
+
+func NewClient(apiKey string, opf ...OptFunc) *Client {
+	option := &option{}
+	for _, f := range opf {
+		f(option)
+	}
+
 	c := &Client{
+		option: option,
 		apiKey: apiKey,
 		rc:     resty.New(),
 	}
 
-	if debug {
+	if c.option.debug {
 		c.rc.OnBeforeRequest(func(client *resty.Client, request *resty.Request) error {
 			return nil
 		})
@@ -46,6 +60,7 @@ func NewClient(apiKey string) *Client {
 }
 
 type Client struct {
+	option *option
 	apiKey string
 
 	rc *resty.Client
