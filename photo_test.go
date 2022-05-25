@@ -34,6 +34,19 @@ func TestClient_Curated(t *testing.T) {
 		t.Fatalf("%s\n", err)
 	}
 	fmt.Printf("%+v\n", pl)
+
+	// two
+	fmt.Printf("----------\n")
+	pl, err = client.CuratedPhotos(context.Background(), &CuratedReq{
+		Pagination: Pagination{
+			Page:    0,
+			PerPage: 1,
+		},
+	})
+	if err != nil {
+		t.Fatalf("%s\n", err)
+	}
+	fmt.Printf("%+v\n", pl)
 }
 
 func TestClient_GetPhoto(t *testing.T) {

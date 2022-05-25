@@ -46,12 +46,19 @@ func NewClient(apiKey string, opf ...OptFunc) *Client {
 
 	if c.option.debug {
 		c.rc.OnBeforeRequest(func(client *resty.Client, request *resty.Request) error {
+			log.Printf("--- OnBefore begin ---")
+			defer log.Printf("--- OnBefore end---")
 			return nil
 		})
 
 		c.rc.OnAfterResponse(func(client *resty.Client, response *resty.Response) error {
+			log.Printf("--- OnAfter begin ---")
+			defer log.Printf("--- OnAfter end ---")
+
 			log.Printf("url: %s", response.Request.URL)
 			log.Printf("body: %s\n", response.Body())
+
+			c.rc.SetCookies(response.Cookies())
 			return nil
 		})
 	}
